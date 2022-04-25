@@ -1,3 +1,4 @@
+from operator import xor
 from unittest import result
 import cv2
 import numpy as np
@@ -6,6 +7,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
 from matplotlib import colors
+from pyparsing import And
 
 orileaf = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/IMG_1491.JPG")
 # orileaf = cv2.cvtColor(orileaf, cv2.COLOR_BGR2RGB)
@@ -20,8 +22,8 @@ hleaf = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Docum
 
 orileaf2 = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/IMG_1502.JPG")
 
-dim = (1000,1000)
-orileaf = cv2.resize(orileaf2, dim, interpolation = cv2.INTER_AREA)
+dim = (1500,1300)
+orileaf = cv2.resize(orileaf, dim, interpolation = cv2.INTER_AREA)
 r,g,b =  cv2.split(orileaf)
 
 # cvthsv = cv2.cvtColor(orileaf, cv2.COLOR_RGB2HSV)
@@ -29,28 +31,44 @@ cvthsv = cv2.cvtColor(orileaf, cv2.COLOR_RGB2HSV)
 h,s,v = cv2.split(cvthsv)
 hsv_split = np.concatenate((h,s,v), axis = 1)
 
-maskh = cv2.inRange(h,85,120)
+maskh0 = cv2.inRange(h,85,120)
+maskh = cv2.inRange(h,85,105.6)
 maskh2 = cv2.inRange(h,85,95)
-maskv = cv2.inRange(v,120,130)
+maskv1 = cv2.inRange(v,0,50)
+maskv2 = cv2.inRange(v,76,255)
+maskv3 = cv2.inRange(v,50,76)
 
-maskt = maskh + maskh2
-res = cv2.bitwise_and(orileaf,orileaf,mask= maskh)
-res2 = cv2.bitwise_and(orileaf,orileaf,mask= maskv)
-res3 = cv2.bitwise_and(orileaf,orileaf,mask= maskt)
+maskt = maskh + maskv3
+maskvt = maskh ^ maskv2 #XOR
+maskvt2 = maskh & maskv2 #AND *
+maskvt3 = maskh | maskv2 #OR
 
-# cv2.imshow('h',h)
-# cv2.imshow('mask',maskh)
-# cv2.imshow('result',res)
+dis1 = cv2.inRange(h,97.6,98.6)
+dis2 = cv2.inRange(h,99.6,105.6)
+dis = dis1 + dis2
 
-# plt.hist(res.ravel(),256,[0,255])
+uleaf = cv2.inRange(h,85.65,102.6)
+stem = cv2.inRange(h,85.66,95.62)
+stem = cv2.bitwise_not(stem)
+backgrass1 = cv2.inRange(s,10.94,12.94)
+backgrass2 = cv2.inRange(s,13.9,96.7)
+backgrass = backgrass1 + backgrass2
+backgrass = cv2.bitwise_not(backgrass)
+moss = cv2.inRange(h,75.6,89.6)
+moss = cv2.bitwise_not(moss)
 
-# idk = cv2.bitwise_and(orileaf,orileaf, mask= maskh)
-cv2.imshow('maskh',res)
-cv2.imshow('maskv',res2)
-cv2.imshow('maskt',res3)
+maskh3 = maskvt2 & backgrass & stem & moss
 
-# crop image to get bottom part, apply filter and find range to segment out
-# plot and cv2 view images differently, focus o cv2
+res = cv2.bitwise_and(orileaf,orileaf,mask= maskvt2)
+res2 = cv2.bitwise_and(orileaf,orileaf,mask= dis)
+res3 = cv2.bitwise_and(orileaf,orileaf,mask= maskh3)
+
+# cv2.imshow('res',res)
+# cv2.imshow('res2',res2)
+cv2.imshow('res3',res3)
+
+# maksh3 for disease only mask
+# maskvt2 to see whole leaf withits shape but background still present
 
 
 plt.show()

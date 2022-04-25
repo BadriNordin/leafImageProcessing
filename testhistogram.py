@@ -14,13 +14,27 @@ testh = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Docum
 
 testl = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/testleaf.JPG")
 
+testl2 = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/testleaf2.JPG")
+
 testg = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/testg.JPG")
 
+moss = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/IMG_1502 moss.JPG")
+
+disease = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/disease.JPG")
+
+g1 = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/ground1.JPG")
+
+backgrass = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/backgrass.JPG")
+
+dleaf = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/dleaf.JPG")
+
+stem = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/stem.JPG")
+
 dim = (700,700)
-orileaf = cv2.resize(orileaf, dim, interpolation = cv2.INTER_AREA)
+orileaf = cv2.resize(disease, dim, interpolation = cv2.INTER_AREA)
 r,g,b =  cv2.split(orileaf)
 
-cvthsv = cv2.cvtColor(testg, cv2.COLOR_RGB2HSV)
+cvthsv = cv2.cvtColor(moss, cv2.COLOR_RGB2HSV)
 h,s,v = cv2.split(cvthsv)
 hsv_split = np.concatenate((h,s,v), axis = 1)
 
@@ -46,7 +60,7 @@ hsv_split = np.concatenate((h,s,v), axis = 1)
 # cv2.imshow("V",v)
 
 # 1st plot, the image
-plt.subplot(2,2,1)
+plt.subplot(1,4,1)
 # plt.subplot(1,3,1)
 plt.imshow(cvthsv)
 
@@ -66,17 +80,17 @@ plt.imshow(cvthsv)
 # plt.xlabel("B")
 
 #2nd plot H value
-plt.subplot(2,2,2)
+plt.subplot(1,4,2)
 plt.hist(h.ravel(),256,[0,255])
 plt.xlabel("H")
 
 #3rd plot S value
-plt.subplot(2,2,3)
+plt.subplot(1,4,3)
 plt.hist(s.ravel(),256,[0,255])
 plt.xlabel("S")
 
 #4th plot V value
-plt.subplot(2,2,4)
+plt.subplot(1,4,4)
 plt.hist(v.ravel(),256,[0,255])
 plt.xlabel("V")
 
