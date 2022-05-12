@@ -22,7 +22,7 @@ hleaf = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Docum
 
 orileaf2 = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/IMG_1502.JPG")
 
-dim = (1500,1300)
+dim = (700,700)
 orileaf = cv2.resize(orileaf, dim, interpolation = cv2.INTER_AREA)
 r,g,b =  cv2.split(orileaf)
 
@@ -59,22 +59,73 @@ moss = cv2.bitwise_not(moss)
 
 maskh3 = maskvt2 & backgrass & stem & moss
 
-res = cv2.bitwise_and(orileaf,orileaf,mask= maskvt2)
-res2 = cv2.bitwise_and(orileaf,orileaf,mask= dis)
+res = cv2.bitwise_and(orileaf,orileaf,mask= maskh0)
+res2 = cv2.bitwise_and(orileaf,orileaf,mask= uleaf)
 res3 = cv2.bitwise_and(orileaf,orileaf,mask= maskh3)
 
-# cv2.imshow('res',res)
-# cv2.imshow('res2',res2)
+cv2.imshow('res',res)
+cv2.imshow('res2',res2)
 cv2.imshow('res3',res3)
 
 # maksh3 for disease only mask
 # maskvt2 to see whole leaf withits shape but background still present
 
+#########################################################################
+# #k-means
+# kimage = cv2.cvtColor(res3, cv2.COLOR_BGR2RGB)
+# temp = cv2.cvtColor(orileaf, cv2.COLOR_BGR2RGB)
+# plt.subplot(1,3,1)
+# plt.imshow(temp)
+
+# # reshape the image to a 2D array of pixels and 3 color values (RGB)
+# pixel_values = kimage.reshape((-1, 3))
+# # convert to float
+# pixel_values = np.float32(pixel_values)
+# print(pixel_values.shape)
+
+# # define stopping criteria
+# criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 100, 0.2)
+
+# # number of clusters (K)
+# k = 3
+# _, labels, (centers) = cv2.kmeans(pixel_values, k, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
+
+# # convert back to 8 bit values
+# centers = np.uint8(centers)
+
+# # flatten the labels array
+# labels = labels.flatten()
+
+# # convert all pixels to the color of the centroids
+# segmented_image = centers[labels.flatten()]
+
+# # reshape back to the original image dimension
+# segmented_image = segmented_image.reshape(kimage.shape)
+
+# # show the image
+# plt.subplot(1,3,2)
+# plt.imshow(segmented_image)
+
+# # disable only the cluster number 2 (turn the pixel into black)
+# masked_image = np.copy(kimage)
+
+# # convert to the shape of a vector of pixel values
+# masked_image = masked_image.reshape((-1, 3))
+# # color (i.e cluster) to disable
+# cluster = 0 #black
+# cluster2 = 2 # light brown
+# cluster3 = 1 # dark brown/disease
+# masked_image[labels == cluster] = [0, 0, 0]
+# # masked_image[labels == cluster2] = [0, 0, 0]
+# masked_image[labels == cluster3] = [0, 0, 0]
+
+# # convert back to original shape
+# masked_image = masked_image.reshape(kimage.shape)
+
+# # show the image
+# plt.subplot(1,3,3)
+# plt.imshow(masked_image)
 
 plt.show()
 cv2.waitKey(0)
 cv2.destroyAllWindows
-
-# 36-68
-# 64-105
-# 125-167
