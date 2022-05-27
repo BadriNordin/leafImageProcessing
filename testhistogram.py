@@ -30,6 +30,8 @@ dleaf = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Docum
 
 stem = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/stem.JPG")
 
+fcm = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/fcmtest2.jpg")
+
 dim = (700,700)
 orileaf = cv2.resize(orileaf, dim, interpolation = cv2.INTER_AREA)
 r,g,b =  cv2.split(orileaf)
@@ -113,7 +115,7 @@ maskb = cv2.inRange(orileaf,lowb,highb)
 maskfinal = maska + maskb
 res2 = cv2.bitwise_and(orileaf, orileaf, mask=maskfinal)
 plt.subplot(1,3,3)
-plt.imshow(res2)
+plt.imshow(fcm)
 
 plt.show()
 

@@ -8,6 +8,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
 from matplotlib import colors
 from pyparsing import And
+import os
 
 orileaf = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/IMG_1491.JPG")
 # orileaf = cv2.cvtColor(orileaf, cv2.COLOR_BGR2RGB)
@@ -22,9 +23,23 @@ hleaf = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Docum
 
 orileaf2 = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/IMG_1502.JPG")
 
+pilfcm = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/pilfcm.JPG")
+
+cv2fcm = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/cv2fcm.JPG")
+
+testsavecv2 = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Pictures/testsavecv2.JPG")
+
+label10 = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/testimages/testlabel10.jpg")
+
+directory = r'C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/testimages'
+os.chdir(directory)
+
 dim = (700,700)
-orileaf = cv2.resize(orileaf, dim, interpolation = cv2.INTER_AREA)
+# orileaf = cv2.resize(orileaf, dim, interpolation = cv2.INTER_AREA)
 r,g,b =  cv2.split(orileaf)
+
+# cv2fcm = cv2.resize(cv2fcm, dim, interpolation = cv2.INTER_AREA)
+# pilfcm = cv2.resize(pilfcm, dim, interpolation = cv2.INTER_AREA)
 
 # cvthsv = cv2.cvtColor(orileaf, cv2.COLOR_RGB2HSV)
 cvthsv = cv2.cvtColor(orileaf, cv2.COLOR_RGB2HSV)
@@ -59,13 +74,37 @@ moss = cv2.bitwise_not(moss)
 
 maskh3 = maskvt2 & backgrass & stem & moss
 
-res = cv2.bitwise_and(orileaf,orileaf,mask= maskh0)
-res2 = cv2.bitwise_and(orileaf,orileaf,mask= uleaf)
-res3 = cv2.bitwise_and(orileaf,orileaf,mask= maskh3)
+# res = cv2.bitwise_and(orileaf,orileaf,mask= maskh0)
+# res2 = cv2.bitwise_and(orileaf,orileaf,mask= maskvt2)
+# res3 = cv2.bitwise_and(orileaf,orileaf,mask= maskh3)
 
-cv2.imshow('res',res)
-cv2.imshow('res2',res2)
-cv2.imshow('res3',res3)
+#label masks
+
+l1low = (119, 145, 149) 
+l1high = (120, 146, 150)
+l1 = cv2.inRange(label10, l1low, l1high)
+
+l3low = (1, 1, 2) 
+l3high = (1.57, 1.91, 2.55)
+l3 = cv2.inRange(label10, l3low, l3high)
+
+l10low = (91, 119, 123) 
+l10high = (93, 121, 125)
+l10 = cv2.inRange(label10, l10low, l10high)
+
+checklabel = cv2.bitwise_and(label10, label10, mask=l3)
+
+cv2.imshow('res',checklabel)
+# cv2.imshow('res2',res2)
+# cv2.imshow('res3',res3)
+
+# plt.subplot(1,2,1)
+# plt.imshow(l1low)
+
+# plt.subplot(1,2,2)
+# plt.imshow(res2)
+
+# cv2.imwrite('testsaveres1.jpg', res)
 
 # maksh3 for disease only mask
 # maskvt2 to see whole leaf withits shape but background still present
