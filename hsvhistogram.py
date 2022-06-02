@@ -31,6 +31,10 @@ testsavecv2 = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS
 
 label10 = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/testimages/testlabel10.jpg")
 
+label16 = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/testimages/testlabel16.jpg")
+
+disease4 = cv2.imread()
+
 directory = r'C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/testimages'
 os.chdir(directory)
 
@@ -74,7 +78,7 @@ moss = cv2.bitwise_not(moss)
 
 maskh3 = maskvt2 & backgrass & stem & moss
 
-# res = cv2.bitwise_and(orileaf,orileaf,mask= maskh0)
+res = cv2.bitwise_and(orileaf,orileaf,mask= maskh3)
 # res2 = cv2.bitwise_and(orileaf,orileaf,mask= maskvt2)
 # res3 = cv2.bitwise_and(orileaf,orileaf,mask= maskh3)
 
@@ -94,7 +98,7 @@ l10 = cv2.inRange(label10, l10low, l10high)
 
 checklabel = cv2.bitwise_and(label10, label10, mask=l3)
 
-cv2.imshow('res',checklabel)
+cv2.imshow('res',res)
 # cv2.imshow('res2',res2)
 # cv2.imshow('res3',res3)
 
@@ -104,7 +108,7 @@ cv2.imshow('res',checklabel)
 # plt.subplot(1,2,2)
 # plt.imshow(res2)
 
-# cv2.imwrite('testsaveres1.jpg', res)
+cv2.imwrite('diseasemask.jpg', res)
 
 # maksh3 for disease only mask
 # maskvt2 to see whole leaf withits shape but background still present
