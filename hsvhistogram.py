@@ -9,23 +9,25 @@ from matplotlib import cm
 from matplotlib import colors
 from pyparsing import And
 import os
+from fcmeans import FCM
+from PIL import Image
 
-orileaf = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/IMG_1491.JPG")
+orileaf = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/unhealthy/IMG_1491.JPG")
 # orileaf = cv2.cvtColor(orileaf, cv2.COLOR_BGR2RGB)
 
-testh = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/testhist.JPG")
+testh = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/testimages/testhist.JPG")
 
-testl = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/testleaf.JPG")
+testl = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/testimages/testleaf.JPG")
 
-testg = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/testg.JPG")
+testg = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/testimages/testg.JPG")
 
-hleaf = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP\Site/visit 1/healthy/IMG_1626.JPG", cv2.IMREAD_UNCHANGED)
+hleaf = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/healthy/IMG_1626.JPG")
 
-orileaf2 = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/IMG_1502.JPG")
+orileaf2 = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/unhealthy/IMG_1502.JPG")
 
-pilfcm = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/pilfcm.JPG")
+pilfcm = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/testimages/pilfcm.JPG")
 
-cv2fcm = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/cv2fcm.JPG")
+cv2fcm = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/testimages/cv2fcm.JPG")
 
 testsavecv2 = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Pictures/testsavecv2.JPG")
 
@@ -33,13 +35,13 @@ label10 = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Doc
 
 label16 = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/testimages/testlabel16.jpg")
 
-disease4 = cv2.imread()
+hleaf2 = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/healthy/IMG_1776.JPG")
 
 directory = r'C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/testimages'
 os.chdir(directory)
 
 dim = (700,700)
-# orileaf = cv2.resize(orileaf, dim, interpolation = cv2.INTER_AREA)
+# orileaf = cv2.resize(hleaf2, dim, interpolation = cv2.INTER_AREA)
 r,g,b =  cv2.split(orileaf)
 
 # cv2fcm = cv2.resize(cv2fcm, dim, interpolation = cv2.INTER_AREA)
@@ -78,9 +80,9 @@ moss = cv2.bitwise_not(moss)
 
 maskh3 = maskvt2 & backgrass & stem & moss
 
-res = cv2.bitwise_and(orileaf,orileaf,mask= maskh3)
-# res2 = cv2.bitwise_and(orileaf,orileaf,mask= maskvt2)
-# res3 = cv2.bitwise_and(orileaf,orileaf,mask= maskh3)
+res = cv2.bitwise_and(cvthsv,cvthsv,mask= maskh0)
+res2 = cv2.bitwise_and(h,h,mask= maskh2)
+res3 = cv2.bitwise_and(h,h,mask= maskh3)
 
 #label masks
 
@@ -98,7 +100,7 @@ l10 = cv2.inRange(label10, l10low, l10high)
 
 checklabel = cv2.bitwise_and(label10, label10, mask=l3)
 
-cv2.imshow('res',res)
+# cv2.imshow('res',res)
 # cv2.imshow('res2',res2)
 # cv2.imshow('res3',res3)
 
@@ -108,11 +110,66 @@ cv2.imshow('res',res)
 # plt.subplot(1,2,2)
 # plt.imshow(res2)
 
-cv2.imwrite('diseasemask.jpg', res)
+# cv2.imwrite('hhealthy2maskh0.jpg', res)
 
 # maksh3 for disease only mask
-# maskvt2 to see whole leaf withits shape but background still present
+# maskvt2 to see whole leaf with its shape but background still present
 
+M = 1280
+N = 1920
+
+image = res
+
+#Transforming image into a data set
+X = (
+    np.asarray(image)                              # convert a PIL image to np array
+    .reshape((N*M, 3))                             # reshape the image to convert each pixel to an instance of a data set
+)
+
+#Creating and fitting the model
+fcm = FCM(n_clusters=4)                           # create a FCM instance with 10 clusters
+# fcm = FCM(random_state=1)
+fcm.fit(X)
+
+#Pixel quantization
+labeld_X = fcm.predict(X)                          # get the label of each data point
+
+print("\nUnsorted:\n",fcm.centers)
+
+sort = fcm.centers[fcm.centers[:,0].argsort()]
+# fcm.centers = fcm.centers[fcm.centers[:,0].argsort()]
+
+print("\nSorted:")
+print(sort)
+
+# sort[0] = [255,255,255]
+# sort[1] = [0,0,0]
+# sort[2] = [0,0,0]
+# sort[3] = [0,0,0]
+        
+
+transformed_X = fcm.centers[labeld_X]              # pixel quantization into the centers
+# transformed_X = sort[labeld_X]              # pixel quantization into the centers
+
+#Converting and saving image
+quatized_array = (
+    transformed_X
+    .astype('uint8')                               # convert data points into 8-bit unsigned integers
+    .reshape((M, N, 3))                            # reshape image
+)
+
+quatized_image = Image.fromarray(np.asarray(quatized_array))   # convert array into a PIL image object
+quatized_image.save('C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/testimages/combinehhehsvmaskh04.jpg') # save image
+
+quatized_image.show()
+
+# fcm.centers = fcm.centers[fcm.centers[:,0].argsort()]
+# sort = fcm.centers[fcm.centers[:,0].argsort()]
+
+print("\nColours:")
+print(sort)
+
+print("\nUnsorted2:\n",fcm.centers)
 #########################################################################
 # #k-means
 # kimage = cv2.cvtColor(res3, cv2.COLOR_BGR2RGB)
