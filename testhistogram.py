@@ -35,7 +35,7 @@ fcm = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documen
 label16 = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/testimages/testlabel16.jpg")
 
 dim = (700,700)
-orileaf = cv2.resize(orileaf, dim, interpolation = cv2.INTER_AREA)
+orileaf = cv2.resize(label16, dim, interpolation = cv2.INTER_AREA)
 r,g,b =  cv2.split(orileaf)
 
 cvthsv = cv2.cvtColor(orileaf, cv2.COLOR_RGB2HSV)
@@ -98,26 +98,26 @@ plt.imshow(cvthsv)
 # plt.hist(v.ravel(),256,[0,255])
 # plt.xlabel("V")
 
-#shows the background
-low = (50,85,30)
-high = (140,200,127)
-mask = cv2.inRange(orileaf, low, high)
-res = cv2.bitwise_and(orileaf, orileaf, mask=mask)
-plt.subplot(1,3,2)
-plt.imshow(res)
+# #shows the background
+# low = (50,85,30)
+# high = (140,200,127)
+# mask = cv2.inRange(orileaf, low, high)
+# res = cv2.bitwise_and(orileaf, orileaf, mask=mask)
+# plt.subplot(1,3,2)
+# plt.imshow(res)
 
-#show foreground
-lowa = (0,0,0)
-higha = (49,84,29)
-lowb = (141,201,128)
-highb = (250,250,250)
+# #show foreground
+# lowa = (0,0,0)
+# higha = (49,84,29)
+# lowb = (141,201,128)
+# highb = (250,250,250)
 
-maska = cv2.inRange(orileaf,lowa,higha)
-maskb = cv2.inRange(orileaf,lowb,highb)
-maskfinal = maska + maskb
-res2 = cv2.bitwise_and(orileaf, orileaf, mask=maskfinal)
-plt.subplot(1,3,3)
-plt.imshow(fcm)
+# maska = cv2.inRange(orileaf,lowa,higha)
+# maskb = cv2.inRange(orileaf,lowb,highb)
+# maskfinal = maska + maskb
+# res2 = cv2.bitwise_and(orileaf, orileaf, mask=maskfinal)
+# plt.subplot(1,3,3)
+# plt.imshow(orileaf)
 
 plt.show()
 

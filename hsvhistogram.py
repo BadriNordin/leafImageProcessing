@@ -41,7 +41,7 @@ directory = r'C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/U
 os.chdir(directory)
 
 dim = (700,700)
-# orileaf = cv2.resize(hleaf2, dim, interpolation = cv2.INTER_AREA)
+orileaf = cv2.resize(hleaf2, dim, interpolation = cv2.INTER_AREA)
 r,g,b =  cv2.split(orileaf)
 
 # cv2fcm = cv2.resize(cv2fcm, dim, interpolation = cv2.INTER_AREA)
@@ -115,8 +115,8 @@ checklabel = cv2.bitwise_and(label10, label10, mask=l3)
 # maksh3 for disease only mask
 # maskvt2 to see whole leaf with its shape but background still present
 
-M = 1280
-N = 1920
+M = 700
+N = 700
 
 image = res
 
@@ -159,7 +159,7 @@ quatized_array = (
 )
 
 quatized_image = Image.fromarray(np.asarray(quatized_array))   # convert array into a PIL image object
-quatized_image.save('C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/testimages/combinehhehsvmaskh04.jpg') # save image
+# quatized_image.save('C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/testimages/combinehhehsvmaskh04.jpg') # save image
 
 quatized_image.show()
 

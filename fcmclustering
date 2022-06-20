@@ -12,6 +12,8 @@ from pyparsing import And
 from fcmeans import FCM 
 from PIL import Image
 
+np.set_printoptions(threshold=np.inf)
+
 orileaf = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/IMG_1491.JPG")
 # orileaf = cv2.cvtColor(orileaf, cv2.COLOR_BGR2RGB)
 
@@ -32,51 +34,51 @@ image = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Docum
 
 masked = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/testimages/testsaveres2.jpg")
 
-M = 1280
-N = 1920
+M = 700
+N = 700
 
 image = masked
 
 dim = (700,700)
-# orileaf = cv2.resize(orileaf, dim, interpolation = cv2.INTER_AREA)
-r,g,b =  cv2.split(orileaf)
+image = cv2.resize(image, dim, interpolation = cv2.INTER_AREA)
+# r,g,b =  cv2.split(orileaf)
 
+# # cvthsv = cv2.cvtColor(orileaf, cv2.COLOR_RGB2HSV)
 # cvthsv = cv2.cvtColor(orileaf, cv2.COLOR_RGB2HSV)
-cvthsv = cv2.cvtColor(orileaf, cv2.COLOR_RGB2HSV)
-h,s,v = cv2.split(cvthsv)
-hsv_split = np.concatenate((h,s,v), axis = 1)
+# h,s,v = cv2.split(cvthsv)
+# hsv_split = np.concatenate((h,s,v), axis = 1)
 
-maskh0 = cv2.inRange(h,85,120)
-maskh = cv2.inRange(h,85,105.6)
-maskh2 = cv2.inRange(h,85,95)
-maskv1 = cv2.inRange(v,0,50)
-maskv2 = cv2.inRange(v,76,255)
-maskv3 = cv2.inRange(v,50,76)
+# maskh0 = cv2.inRange(h,85,120)
+# maskh = cv2.inRange(h,85,105.6)
+# maskh2 = cv2.inRange(h,85,95)
+# maskv1 = cv2.inRange(v,0,50)
+# maskv2 = cv2.inRange(v,76,255)
+# maskv3 = cv2.inRange(v,50,76)
 
-maskt = maskh + maskv3
-maskvt = maskh ^ maskv2 #XOR
-maskvt2 = maskh & maskv2 #AND *
-maskvt3 = maskh | maskv2 #OR
+# maskt = maskh + maskv3
+# maskvt = maskh ^ maskv2 #XOR
+# maskvt2 = maskh & maskv2 #AND *
+# maskvt3 = maskh | maskv2 #OR
 
-dis1 = cv2.inRange(h,97.6,98.6)
-dis2 = cv2.inRange(h,99.6,105.6)
-dis = dis1 + dis2
+# dis1 = cv2.inRange(h,97.6,98.6)
+# dis2 = cv2.inRange(h,99.6,105.6)
+# dis = dis1 + dis2
 
-uleaf = cv2.inRange(h,85.65,102.6)
-stem = cv2.inRange(h,85.66,95.62)
-stem = cv2.bitwise_not(stem)
-backgrass1 = cv2.inRange(s,10.94,12.94)
-backgrass2 = cv2.inRange(s,13.9,96.7)
-backgrass = backgrass1 + backgrass2
-backgrass = cv2.bitwise_not(backgrass)
-moss = cv2.inRange(h,75.6,89.6)
-moss = cv2.bitwise_not(moss)
+# uleaf = cv2.inRange(h,85.65,102.6)
+# stem = cv2.inRange(h,85.66,95.62)
+# stem = cv2.bitwise_not(stem)
+# backgrass1 = cv2.inRange(s,10.94,12.94)
+# backgrass2 = cv2.inRange(s,13.9,96.7)
+# backgrass = backgrass1 + backgrass2
+# backgrass = cv2.bitwise_not(backgrass)
+# moss = cv2.inRange(h,75.6,89.6)
+# moss = cv2.bitwise_not(moss)
 
-maskh3 = maskvt2 & backgrass & stem & moss
+# maskh3 = maskvt2 & backgrass & stem & moss
 
-res = cv2.bitwise_and(orileaf,orileaf,mask= maskh0)
-res2 = cv2.bitwise_and(orileaf,orileaf,mask= uleaf)
-res3 = cv2.bitwise_and(orileaf,orileaf,mask= maskh3)
+# res = cv2.bitwise_and(orileaf,orileaf,mask= maskh0)
+# res2 = cv2.bitwise_and(orileaf,orileaf,mask= uleaf)
+# res3 = cv2.bitwise_and(orileaf,orileaf,mask= maskh3)
 
 # cv2.imshow('res',res)
 # cv2.imshow('res2',res2)
@@ -95,7 +97,7 @@ X = (
 )
 
 #Creating and fitting the model
-fcm = FCM(n_clusters=16)                           # create a FCM instance with 10 clusters
+fcm = FCM(n_clusters=2)                           # create a FCM instance with 10 clusters
 fcm.fit(X)
 
 #Pixel quantization
@@ -121,9 +123,22 @@ quatized_array = (
 )
 
 quatized_image = Image.fromarray(np.asarray(quatized_array))   # convert array into a PIL image object
-quatized_image.save('C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/testimages/testlabel16.jpg') # save image
+# quatized_image.save('C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/testimages/testlabel16.jpg') # save image
 
 # quatized_image = quatized_image.reshape((-1,3))
 # quatized_image = quatized_image[transformed_X == fcm.centers[1]] = [255,255,255]
-quatized_image.show()
-print(fcm.centers.sort())
+
+test = np.array(quatized_image).flatten()
+
+leaf = test.reshape(700,700,3)
+
+leaf2 = Image.fromarray(np.asarray(leaf))
+
+# quatized_image.show()
+# print('quatized array:')
+# print(quatized_array)
+# print(type(quatized_array))
+
+leaf2.show()
+lens = len(test)
+print(np.shape(quatized_array))
