@@ -2,8 +2,10 @@ import cv2
 import numpy as np
 import matplotlib as plt
 
-orileaf = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/IMG_1491.JPG", cv2.IMREAD_UNCHANGED)
+# orileaf = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/idk/IMG_1491.JPG", cv2.IMREAD_UNCHANGED)
 # orileaf = cv2.cvtColor(orileaf, cv2.COLOR_BGR2RGB)
+orileaf = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/svm/dataset3/Unhealthy/IMG_1491.jpg")
+
 
 hleaf = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP\Site/visit 1/healthy/IMG_1626.JPG", cv2.IMREAD_UNCHANGED)
 hleaf = cv2.cvtColor(hleaf, cv2.COLOR_BGR2RGB)

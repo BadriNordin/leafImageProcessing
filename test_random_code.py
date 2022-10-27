@@ -4,8 +4,11 @@ from PIL import Image
 from fcmeans import FCM
 import sys 
 import cv2
+from datetime import datetime
 
-# np.set_printoptions(threshold=np.inf)
+start_time = datetime.now()
+
+np.set_printoptions(threshold=np.inf)
 
 # image = Image.open('C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/unhealthy/IMG_1491.JPG')
 # N, M = image.size    
@@ -28,10 +31,13 @@ hleaf2 = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Docu
 
 hhleaf2 = cv2.imread("C:/Users/user/OneDrive - Universiti Teknologi PETRONAS/Documents/UTP/4th2nd/FYP/Site/visit 1/testimages/hhealthy2maskh0.jpg")
 
-M = 1280
-N = 1920
+M = 700
+N = 700
 
 image = hhleaf2
+
+dim = (700,700)
+image = cv2.resize(image, dim, interpolation = cv2.INTER_AREA)
 
 #Transforming image into a data set
 X = (
@@ -47,13 +53,13 @@ fcm.fit(X)
 #Pixel quantization
 labeld_X = fcm.predict(X)                          # get the label of each data point
 
-print("\nUnsorted:\n",fcm.centers)
+# print("\nUnsorted:\n",fcm.centers)
 
 sort = fcm.centers[fcm.centers[:,0].argsort()]
 # fcm.centers = fcm.centers[fcm.centers[:,0].argsort()]
 
-print("\nSorted:")
-print(sort)
+# print("\nSorted:")
+# print(sort)
 
 # sort[0] = [255,255,255]
 # sort[1] = [0,0,0]
@@ -79,11 +85,15 @@ quatized_image.show()
 # fcm.centers = fcm.centers[fcm.centers[:,0].argsort()]
 # sort = fcm.centers[fcm.centers[:,0].argsort()]
 
-print("\nColours:")
-print(sort)
+# print("\nColours:")
+# print(sort)
 
 print("\nUnsorted2:\n",fcm.centers)
+
+print('\nQuatized Array:\n',quatized_array)
 
 # print("\nLabeld_X:")
 # print(transformed_X,"\n")
 # print(type(transformed_X))
+end_time = datetime.now()
+print('\nDuration: {}'.format(end_time - start_time))
