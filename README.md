@@ -1,12 +1,15 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Thrips Invasion Detection Using Image Processing 
 
 ### What is this repository for? ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+Final Year Project(FYP)
+Muhammad Badrisya Bin Nordin
+17001354
+COE
+
+This project detects if thrips have invaded the leaves of a mango plant
 
 ### How do I get set up? ###
 
